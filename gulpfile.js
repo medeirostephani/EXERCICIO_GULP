@@ -28,8 +28,12 @@ function compilaSass() {
     .pipe(gulp.dest('./build/styles'));
 }
 
-exports.default = function() {
+exports.build = gulp.series(compilaSass, comprimeJavaScript, comprimeImagens);
+
+exports.watch = function() {
     gulp.watch('./source/styles/*.scss', {ignoreInitial: false}, gulp.series(compilaSass));
     gulp.watch('./source/scripts/*.js', {ignoreInitial: false}, gulp.series(comprimeJavaScript));
     gulp.watch('./source/images/*', {ignoreInitial: false}, gulp.series(comprimeImagens));
 }
+
+exports.default = gulp.series(exports.build);
